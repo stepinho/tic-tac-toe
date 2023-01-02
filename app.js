@@ -12,7 +12,7 @@ const combinations = [
     [0, 4, 8], [2, 4, 6]
 ];
 
-const boxes = [...document.querySelectorAll('.box')];
+const boxes = document.querySelectorAll('.box');
 boxes.forEach(box => box.addEventListener('click', pick));
 
 function pick(event) {
