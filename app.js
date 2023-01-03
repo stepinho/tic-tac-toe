@@ -1,19 +1,22 @@
 const PLAYER1 = 'fa-circle-o';
 const PLAYER2 = 'fa-times';
-let round = 1;
-const board = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', '']
-];
+let round
+let board
+configuration();
 const combinations = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
     [0, 4, 8], [2, 4, 6]
 ];
 
-const boxes = document.querySelectorAll('.box');
-boxes.forEach(box => box.addEventListener('click', pick));
+function configuration() {
+    round = 1;
+    board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+    ]
+}
 
 function pick(event) {
     const { row, column } = event.target.dataset;
@@ -22,8 +25,7 @@ function pick(event) {
     event.target.classList.add(turn);
     board[row][column] = turn;
     round++;
-
-    console.log(check());
+    check();
 }
 
 function check() {
@@ -36,12 +38,22 @@ function check() {
     result.forEach((field, index) => moves[field] ? moves[field].push(index) : null);
     combinations.forEach(combination => {
         if (combination.every(index => moves[PLAYER1].indexOf(index) > -1)) {
-            winner = 'Winner: Player 1';
+            winner = 'Winner: Circle';
         }
         if (combination.every(index => moves[PLAYER2].indexOf(index) > -1)) {
-            winner = 'Winner: Player 2';
+            winner = 'Winner: Cross';
         }
     });
 
-    return winner;
+    if (winner !== null) {
+        alert(winner);
+    }
+}
+function reset() {
+    boxes = document.getElementsByClassName("box");
+    for (box of boxes) {
+        box.classList.remove("fa-circle-o");
+        box.classList.remove("fa-times");
+    };
+    configuration();
 }
